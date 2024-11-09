@@ -8,15 +8,19 @@
         <div class="row">
             <h1 class="text-center">Welcome to the admin dashboard</h1>
             <div class="col-6">
-                <form action="" method="POST">
+                <form action="createProduct.php" method="POST">
                     <h2>Add New Product</h2>
                     <div class="mb-3">
                         <label for="productName" class="form-label">Product name</label>
-                        <input type="text" class="form-control" id="productName" required>
+                        <input type="text" class="form-control" name="productName" id="productName" required>
                     </div>
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Product Quantity</label>
                         <input type="number" name="quantity" id="quantity" placeholder="Count" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Product price</label>
+                        <input type="number" name="price" id="price" placeholder="price" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Product Image</label>
