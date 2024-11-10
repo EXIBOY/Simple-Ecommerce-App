@@ -71,7 +71,10 @@
                                     <button class="btn btn-warning btn-sm">Edit</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                    <form action="/admin/deleteProduct.php" method="POST">
+                                        <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
