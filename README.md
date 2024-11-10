@@ -20,6 +20,7 @@ CREATE TABLE `Shop`.`products` (
     `price` float(7,2) NOT NULL,
     `quantity` int(5) NOT NULL,
     `size` enum('small', 'medium', 'large') NOT NULL,
+    `pictures` text NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT NULL, PRIMARY KEY (id)
 );
