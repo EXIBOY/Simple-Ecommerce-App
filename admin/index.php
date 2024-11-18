@@ -68,7 +68,7 @@
                                 <td><?php echo ucwords($product['size']); ?></td>
                                 <td><?php echo '£' . $product['price']; ?></td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm">Edit</button>
+                                    <button class="btn btn-warning btn-sm" onclick="location.href = '/admin/editProduct.php?id=<?php echo $product['id']; ?>'">Edit</button>
                                 </td>
                                 <td>
                                     <form action="/admin/deleteProduct.php" method="POST">
