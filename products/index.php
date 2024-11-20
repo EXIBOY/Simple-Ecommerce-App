@@ -9,6 +9,11 @@ if ($mysqli->connect_errno) {
     exit();
 } else {
     $sql = "SELECT * FROM products";
+
+    if (!is_null($_GET) && is_array($_GET) && count($_GET) > 0 && isset($_GET['query'])) {
+        $sql = "SELECT * FROM products WHERE name LIKE '%" . $_GET['query'] . "%' OR size LIKE '%" . $_GET['query'] . "%'";
+    }
+
     $result = $mysqli->query($sql);
     $products = $result->fetch_all(MYSQLI_ASSOC);
 }
