@@ -12,6 +12,14 @@ class ProductsModel extends Model
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function findProducts(string $query): array
+    {
+        $sql = "SELECT * FROM products WHERE name LIKE '%" . $_GET['query'] . "%' OR size LIKE '%" . $_GET['query'] . "%'";
+        $result = $this->databaseConnection->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function create(array $data): bool
     {
         $productName = htmlspecialchars($data['name']);

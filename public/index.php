@@ -32,5 +32,10 @@ $router->addRoute('POST', '/admin/products', function () {
     $controller->create($_POST);
 });
 
+$router->addRoute('GET', '/products', function () use ($twig) {
+    $controller = new ProductsController();
+    $controller->view($twig);
+});
+
 // Handle the current request
 $router->handleRequest();
