@@ -19,6 +19,15 @@ class ProductsController
         }
     }
 
+    public function delete(array $data): void
+    {
+        $model = new ProductsModel();
+
+        if ($model->delete($data['id'])) {
+            header('Location: /admin');
+        }
+    }
+
     /**
      * @throws SyntaxError
      * @throws RuntimeError

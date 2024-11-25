@@ -28,4 +28,17 @@ class AdminController
 
         echo $twig->render('admin.twig', ['products' => $products]);
     }
+
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function editView(Environment $twig, int $id): void
+    {
+        $productsModel = new ProductsModel();
+        $products = $productsModel->find($id);
+
+        echo $twig->render('edit-products.twig', ['products' => $products]);
+    }
 }

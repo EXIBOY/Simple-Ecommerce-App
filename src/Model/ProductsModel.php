@@ -20,6 +20,22 @@ class ProductsModel extends Model
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function find(int $id)
+    {
+        $sql = "SELECT * FROM products WHERE id = " . $id;
+    }
+
+    public function delete(int $id)
+    {
+        $sql = "DELETE FROM products WHERE id=$id";
+
+        if ($this->databaseConnection->query($sql)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function create(array $data): bool
     {
         $productName = htmlspecialchars($data['name']);

@@ -98,12 +98,11 @@
                         <td>{{ product.size }}</td>
                         <td>£{{ product.price }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm"
-                                    onclick="location.href = '/admin/editProduct.php?id={{ product.id }}'">Edit
-                            </button>
+{#                            <button class="btn btn-warning btn-sm" onclick="location.href = '/admin/editProduct.php?id={{ product.id }}'">Edit</button>#}
+                            <button class="btn btn-warning btn-sm" onclick="location.href = '/admin/products/edit/{{ product.id }}'">Edit</button>
                         </td>
                         <td>
-                            <form action="/admin/deleteProduct.php" method="POST">
+                            <form action="/admin/products/delete/" method="POST">
                                 <input type="hidden" name="id" value="{{ product.id }}">
                                 <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                             </form>
