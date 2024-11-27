@@ -52,5 +52,10 @@ $router->addRoute('GET', '/products', function () use ($twig) {
     $controller->view($twig);
 });
 
+$router->addRoute('GET', '/products/list', function () {
+    $controller = new ProductsController();
+    $controller->filter($_GET);
+});
+
 // Handle the current request
 $router->handleRequest();

@@ -6,6 +6,7 @@
     <title>PELETOAN'S</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <style>
@@ -29,11 +30,6 @@
                 <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/products">
-                <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..."
-                       aria-label="Search" name="query">
-            </form>
-
             <div class="text-end">
                 <button type="button" class="btn btn-outline-light me-2">Login</button>
                 <button type="button" class="btn btn-warning">Sign-up</button>
@@ -41,27 +37,49 @@
         </div>
     </div>
 </header>
+
 <div class="container">
     <div class="row m-5">
         <h1>All Products</h1>
-        {% for product in products %}
-            <div class="col-6">
-                <div class="card pb-5 mb-5">
-                    <img src="https://images.unsplash.com/photo-1485842536783-f791cdb28f2f?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                         class="card-img-top" alt="Product image">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.size }}</p>
-                        <p class="card-text">£{{ product.price }}</p>
-                        {{ product.quantity <= 0 ? "<p>Out Of Stock</p>" : null }}
-                        <button class="btn btn-primary" {{ product.quantity <= 0 ? "disabled" : null }}>Add To Cart
-                        </button>
-                    </div>
+
+        <!-- Filter Form -->
+        <div class="col-12">
+            <form id="filterForm" class="d-flex mb-3">
+                <div class="me-2">
+                    <label for="nameFilter" class="form-label text-white">Name Like:</label>
+                    <input type="text" class="form-control" id="nameFilter" name="nameFilter">
                 </div>
-            </div>
-        {% endfor %}
+                <div class="me-2">
+                    <label for="sizeFilter" class="form-label text-white">Size:</label>
+                    <select id="sizeFilter" class="form-select">
+                        <option value="">All</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                    </select>
+                </div>
+                <div class="me-2">
+                    <label for="priceRange" class="form-label text-white">Price Range:</label>
+                    <select id="priceRange" class="form-select">
+                        <option value="">All</option>
+                        <option value="0-20">£0 - £20</option>
+                        <option value="21-50">£21 - £50</option>
+                        <option value="51-100">£51 - £100</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="applyFilters">Apply Filters</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Product List -->
+        <div id="productList" class="row">
+            <!-- Products will be dynamically loaded here via AJAX -->
+        </div>
     </div>
 </div>
+
 <div class="container">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -73,8 +91,70 @@
         <p class="text-center text-body-secondary">&copy; 2024 PELETOAN'S</p>
     </footer>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script>
+    // Document Ready Function
+    $(document).ready(function() {
+        // Load all products on page load
+        loadProducts();
+
+        // Search with AJAX
+        $('#searchQuery').on('keyup', function() {
+            loadProducts();
+        });
+
+        // Filter products based on size and price range
+        $('#applyFilters').on('click', function() {
+            loadProducts();
+        });
+    });
+
+    // Function to load products with AJAX
+    function loadProducts() {
+        const query = $('#searchQuery').val();
+        const size = $('#sizeFilter').val();
+        const priceRange = $('#priceRange').val();
+        const name = $('#nameFilter').val();
+
+        // Send AJAX request
+        $.ajax({
+            url: '/products/list',  // The URL to fetch products
+            method: 'GET',
+            data: {
+                query: name,
+                size: size,
+                priceRange: priceRange
+            },
+            success: function(data) {
+                // Clear previous results
+                $('#productList').empty();
+
+                data = JSON.parse(data);
+
+                // Append the products to the page
+                data.forEach(function(product) {
+                    const productHTML = `
+                        <div class="col-6">
+                            <div class="card pb-5 mb-5">
+                                <img src="${product.image_url}" class="card-img-top" alt="Product image">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.name}</h5>
+                                    <p class="card-text">${product.size}</p>
+                                    <p class="card-text">£${product.price}</p>
+                                    ${product.quantity <= 0 ? "<p>Out Of Stock</p>" : ""}
+                                    <button class="btn btn-primary" ${product.quantity <= 0 ? "disabled" : ""}>Add To Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#productList').append(productHTML);
+                });
+            }
+        });
+    }
+</script>
 </body>
 </html>
