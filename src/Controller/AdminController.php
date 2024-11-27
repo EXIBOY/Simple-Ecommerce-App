@@ -37,8 +37,8 @@ class AdminController
     public function editView(Environment $twig, int $id): void
     {
         $productsModel = new ProductsModel();
-        $products = $productsModel->find($id);
+        $product = $productsModel->find($id);
 
-        echo $twig->render('edit-products.twig', ['products' => $products]);
+        echo $twig->render('edit-products.twig', ['product' => $product]);
     }
 }

@@ -23,6 +23,14 @@ class ProductsModel extends Model
     public function find(int $id)
     {
         $sql = "SELECT * FROM products WHERE id = " . $id;
+        $result = $this->databaseConnection->query($sql);
+
+        return $result->fetch_assoc();
+    }
+
+    public function query(string $query)
+    {
+        return $this->databaseConnection->query($query);
     }
 
     public function delete(int $id)

@@ -19,6 +19,23 @@ class ProductsController
         }
     }
 
+    public function update(array $data): void
+    {
+        $model = new ProductsModel();
+        $productName = $data['productName'];
+        $productPrice = $data['price'];
+        $productQuantity = $data['quantity'];
+        $productSize = $data['size'];
+        $productImage = $data['image'];
+        $productId = $data['id'];
+
+        $sql = "UPDATE products SET name = '$productName', price = '$productPrice', quantity = '$productQuantity', size = '$productSize' WHERE id = '" . $productId . "'";
+
+        if ($model->query($sql) === TRUE) {
+            header('Location: /admin');
+        }
+    }
+
     public function delete(array $data): void
     {
         $model = new ProductsModel();

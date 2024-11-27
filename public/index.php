@@ -32,14 +32,19 @@ $router->addRoute('POST', '/admin/products', function () {
     $controller->create($_POST);
 });
 
-$router->addRoute('GET', '/admin/products/edit/:id', function ($id) use ($twig) {
+$router->addRoute('GET', '/admin/products/edit/', function () use ($twig) {
     $controller = new AdminController();
-    $controller->editView($twig, $id);
+    $controller->editView($twig, $_GET['id']);
 });
 
 $router->addRoute('POST', '/admin/products/delete/', function () {
     $controller = new ProductsController();
     $controller->delete($_POST);
+});
+
+$router->addRoute('POST', '/admin/products/edit/', function () {
+    $controller = new ProductsController();
+    $controller->update($_POST);
 });
 
 $router->addRoute('GET', '/products', function () use ($twig) {
