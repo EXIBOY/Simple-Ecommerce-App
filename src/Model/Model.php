@@ -13,7 +13,7 @@ class Model
 
     public function connectToDatabase()
     {
-        $mysqli = new \mysqli("127.0.0.1", "root", "password", "Shop");
+        $mysqli = new \mysqli("mi-linux.wlv.ac.uk", "2402205", "2xaca2laExi_1234*", "db2402205");
 
         if ($mysqli->connect_errno) {
             printf("Connect failed: %s\n", $mysqli->connect_error);

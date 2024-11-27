@@ -24,6 +24,14 @@ CREATE TABLE `Shop`.`products` (
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT NULL, PRIMARY KEY (id)
 );
+
+CREATE TABLE `Shop`.`users` (
+    `id` int AUTO_INCREMENT,
+    `name` varchar(60) NOT NULL,
+    `email` varchar(60) NOT NULL,
+    `password` varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+);
 ```
 
 ```sh
