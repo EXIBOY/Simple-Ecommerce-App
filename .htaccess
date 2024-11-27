@@ -1,0 +1,9 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Set the base directory to the "public" folder
+RewriteBase /
+
+# Redirect all requests to public/index.php
+RewriteRule ^$ public/index.php [L]
+RewriteRule ^(.*)$ public/index.php [L]
