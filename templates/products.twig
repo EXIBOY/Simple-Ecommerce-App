@@ -97,17 +97,17 @@
         crossorigin="anonymous"></script>
 <script>
     // Document Ready Function
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Load all products on page load
         loadProducts();
 
         // Search with AJAX
-        $('#searchQuery').on('keyup', function() {
+        $('#searchQuery').on('keyup', function () {
             loadProducts();
         });
 
         // Filter products based on size and price range
-        $('#applyFilters').on('click', function() {
+        $('#applyFilters').on('click', function () {
             loadProducts();
         });
     });
@@ -128,18 +128,18 @@
                 size: size,
                 priceRange: priceRange
             },
-            success: function(data) {
+            success: function (data) {
                 // Clear previous results
                 $('#productList').empty();
 
                 data = JSON.parse(data);
 
                 // Append the products to the page
-                data.forEach(function(product) {
+                data.forEach(function (product) {
                     const productHTML = `
                         <div class="col-6">
                             <div class="card pb-5 mb-5">
-                                <img src="${product.image_url}" class="card-img-top" alt="Product image">
+                                <img src="uploads/${product.pictures}" class="card-img-top" alt="Product image">
                                 <div class="card-body">
                                     <h5 class="card-title">${product.name}</h5>
                                     <p class="card-text">${product.size}</p>

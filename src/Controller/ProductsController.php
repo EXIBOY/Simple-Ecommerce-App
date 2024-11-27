@@ -14,6 +14,52 @@ class ProductsController
     {
         $model = new ProductsModel();
 
+        // Define a target directory for file uploads
+        $targetDir = "uploads/"; // Make sure this directory exists and is writable
+        $uploadOk = 1; // Flag to check if everything is okay
+        $fileName = ""; // To store the final file name
+        $targetFile = ""; // Complete path to store the uploaded file
+        $imageFileType = ""; // File extension (e.g., jpeg, png)
+        $newFileName = "";
+
+        if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+            $fileName = $_FILES["image"]["name"]; // Original file name
+            $targetFile = $targetDir . basename($fileName);
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION)); // Get file extension
+
+            // Check file size (e.g., limit to 10MB)
+            if ($_FILES["image"]["size"] > 10000000) {
+                echo "Sorry, your file is too large. Max size is 10MB.";
+                $uploadOk = 0;
+            }
+
+            // Check if the file is an allowed type (e.g., images)
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'pdf'];
+            if (!in_array($imageFileType, $allowedTypes)) {
+                echo "Sorry, only JPG, JPEG, PNG, GIF, and PDF files are allowed.";
+                $uploadOk = 0;
+            }
+
+            var_dump("Here");
+
+            if ($uploadOk == 0) {
+                echo "Sorry, your file was not uploaded.";
+            } else {
+                // Generate a unique file name to avoid overwriting existing files
+                $newFileName = uniqid('file_', true) . '.' . $imageFileType;
+                $targetFile = $targetDir . $newFileName;
+
+                // Attempt to move the uploaded file to the target directory
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+                    echo "The file " . htmlspecialchars($newFileName) . " has been uploaded.";
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            }
+        }
+
+        $data['pictures'] = $newFileName;
+
         if ($model->create($data)) {
             header('Location: /admin');
         }

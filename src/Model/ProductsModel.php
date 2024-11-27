@@ -50,8 +50,9 @@ class ProductsModel extends Model
         $productPrice = htmlspecialchars($data['price']);
         $productQuantity = htmlspecialchars($data['quantity']);
         $productSize = htmlspecialchars($data['size']);
+        $pictures = htmlspecialchars($data['pictures']);
 
-        $sql = "INSERT INTO products (name, price, quantity, size, pictures) VALUES ('$productName', $productPrice, $productQuantity, '$productSize', '')";
+        $sql = "INSERT INTO products (name, price, quantity, size, pictures) VALUES ('$productName', $productPrice, $productQuantity, '$productSize', '$pictures')";
 
         if ($this->databaseConnection->query($sql)) {
             return true;
